@@ -372,6 +372,7 @@ function backup() {
 console.log("STARTING");
 lastSave=window.localStorage.getItem('tangoSave');
 console.log('lastSave: '+lastSave);
+alert('screen size: '+screen.width+'x'+screen.height);
 var defaultData = {
     records: [{
         kanji: "字",
