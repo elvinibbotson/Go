@@ -34,6 +34,7 @@ id('header').addEventListener('click',function() {
 id('background').addEventListener('click',function() {
 	console.log('close dialogs');
 	hide('dataDialog');
+	hide('restoreDialog');
 	hide('findDialog');
 	hide('flashcardDialog');
 	hide('wordDialog');
@@ -107,7 +108,7 @@ id('buttonNextCard').addEventListener('click',function() {
 })
 */
 // FIND
-id('buttonFind').addEventListener('click', function() {
+id('buttonFind').addEventListener('click',function() {
 	console.log('FIND');
 	mode='find';
 	show('findDialog');
@@ -227,7 +228,7 @@ id('wordPanel').addEventListener('click',function() {
     show('wordDialog');
 })
 
-id('buttonAdd').addEventListener('click', function() {
+id('buttonAdd').addEventListener('click',function() {
     hide('wordPanel');
     // id('display').style.display = 'none';
     mode='add';
@@ -253,7 +254,7 @@ id('buttonAdd').addEventListener('click', function() {
 
 id('wordField').addEventListener('change',nextStep);
 
-id('buttonDelete').addEventListener('click', function() {
+id('buttonDelete').addEventListener('click',function() {
     alert("DELETE WORD");
     words.splice(wordIndex,1);
     save();
@@ -261,6 +262,10 @@ id('buttonDelete').addEventListener('click', function() {
 })
 
 id('buttonNextSave').addEventListener('click',nextStep);
+
+id('buttonRestore').addEventListener('click',function() {
+	show('restoreDialog');
+})
 
 id('buttonBackup').addEventListener('click',function() {
 	show('backupDialog');
