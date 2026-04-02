@@ -51,13 +51,15 @@ button {
 }
 
 input {
+	position: absolute;
 	width: 50%;
-	height: 30px;
+	height: 40px;
+	margin: 5px;
 	color: white;
 	background-color: black;
 	border: 1px solid white;
 	border-radius: 5px;
-	font-size: 1em;
+	font-size: 1.2em;
 }
 
 .content {
@@ -147,7 +149,7 @@ input {
  
 #header {
   width: 100%;
-  height: 40px;
+  height: 50px;
   color: white;
   background: black;
   position: fixed;
@@ -175,7 +177,7 @@ input {
 }
 
 #flashcardDialog, #findDialog {
-	height: 40px;
+	height: 50px;
 	z-index: 100;
 }
   
@@ -184,14 +186,23 @@ input {
 	left: 20px;
 }
 
+#find {
+	margin: 5px;
+	float: right;
+}
+
 #buttonAdd {
 	right: 20px;
 	bottom: 20px;
 }
 
+#wordDialog {
+	height: 30%;
+}
+
 #wordPanel {
   position: absolute;
-  top: 40px;
+  top: 50px;
   height: 30%;
   background: black;
 }

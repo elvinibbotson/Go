@@ -41,6 +41,7 @@ id('background').addEventListener('click',function() {
 	hide('wordPanel');
 	show('buttonFind');
 	show('buttonAdd');
+	mode='none';
 	/*
 	id('findDialog').style.display='none';
 	id('recordDialog').style.display='none';
@@ -120,7 +121,7 @@ id('buttonFind').addEventListener('click',function() {
 	// id('help').innerHTML = '';
 })
 
-id('findField').addEventListener('change',function() {
+id('find').addEventListener('click',function() {
     word=id('findField').value.toLowerCase();
     console.log("find "+word);
     var i=0,
@@ -222,7 +223,9 @@ id('wordPanel').addEventListener('click',function() {
     id('label').innerHTML='kanji';
     id('wordField').value=word.kanji;
     id('word').innerHTML=word.kanji+'/'+word.kana+'/'+word.romaji+'/'+word.anglo;
-    step = 1;
+    id('label').innerHTML='kanji';
+    id('wordField').value=word.kanji;
+    step=1;
     id('nextSave').src='next.svg';
     show('buttonDelete');
     show('wordDialog');
@@ -233,10 +236,9 @@ id('buttonAdd').addEventListener('click',function() {
     // id('display').style.display = 'none';
     mode='add';
     step=1;
-    id('word').innerHTML='-----------';
+    id('word').innerHTML='';
     id('wordField').value='';
-    record={};
-    wordIndex=recordIndex=-1;
+    wordIndex=-1;
     id('label').innerHTML="kanji";
     /*
     id("buttonDelete").disabled = true;
@@ -257,8 +259,10 @@ id('buttonAdd').addEventListener('click',function() {
 id('buttonDelete').addEventListener('click',function() {
     alert("DELETE WORD");
     words.splice(wordIndex,1);
+    wordIndex=-1;
     save();
     hide('wordDialog');
+    mode='none';
 })
 
 id('buttonNextSave').addEventListener('click',nextStep);
