@@ -18,11 +18,12 @@ var cardStep=0;
 var mode='none';
 var lang='English';
 // var recordIndex = -1;
-var lastSave = null;
-var resort = false;
+// var lastSave = null;
+// var resort = false;
 // var qFocus = null;
 var finds=[]; // NEW: list of words matching find term
 var findIndex=null;
+var backupDay=null;
 // var find=-1; // index for matching finds (-1 if none)
 
 // EVENT LISTENERS
@@ -268,12 +269,34 @@ id('buttonDelete').addEventListener('click',function() {
 id('buttonNextSave').addEventListener('click',nextStep);
 
 id('buttonRestore').addEventListener('click',function() {
-	show('restoreDialog');
-})
-
-id('buttonBackup').addEventListener('click',function() {
-	show('backupDialog');
+	var event = new MouseEvent('click',{
+		bubbles: true,
+		cancelable: true,
+		view: window
+	});
+	fileChooser.dispatchEvent(event);
+	fileChooser.onchange=(event)=>{
+		var file=id('fileChooser').files[0];
+    	console.log("file name: "+file.name);
+    	var fileReader=new FileReader();
+    	fileReader.addEventListener('load', function(evt) {
+			console.log("file read: "+evt.target.result);
+    		var data=evt.target.result;
+    		var json=JSON.parse(data);
+    		words=json.words;
+    		console.log(words.length+" words loaded");
+    		save();
+    		console.log('data imported and saved');
+    		load();
+    	});
+    	fileReader.readAsText(file);
+	}
+	id('dataMessage').innerText='';
+	id('buttonBackup').disabled=false;
+	hide('dataDialog');
 });
+
+id('buttonBackup').addEventListener('click',backup);
 
 function nextStep() {
 	// ******* COULD ALL GO IN BUTTONNEXTSAVE LISTENER?  *********
@@ -494,7 +517,7 @@ function flashcard(first) {
     //id('wordPanel').style.display='block';
     console.log('wordPanel is '+id('wordPanel').style.display);
     // show('help');
-    cardIndex = (cardIndex + cardStep) % records.length; // ready for next flashcard
+    cardIndex=(cardIndex+cardStep)%words.length; // ready for next flashcard
 }
 
 // ADD word/phrase BUTTON
@@ -531,14 +554,14 @@ function load() {
     words=JSON.parse(data);
     console.log(words.length+' words loaded - latest: '+words[words.length-1].romaji);
     id('wordCount').innerText=words.length+' words';
-    var today=Math.floor(new Date().getTime()/86400000);
-	// var days=today-backupDay;
-	/* if(days>4) { // backup reminder every 5 days
-		id('dataMessage').innerText=days+' since last backup';
-		id('restoreButton').disabled=true;
-		toggleDialog('dateDialog',true);
+    today=Math.floor(new Date().getTime()/86400000);
+    var days=today-backupDay;
+	if(days>4) { // backup reminder every 5 days
+		id('dataMessage').innerText=days+' days since last backup';
+		id('buttonRestore').disabled=true;
+		show('dataDialog');
 	}
-	*/
+
 }
 // SAVE VOCABULARY
 function save() {
@@ -548,73 +571,57 @@ function save() {
 	console.log('data saved to WordData');
 }
 
-// RESTORE BACKUP
+/* RESTORE BACKUP
 id("fileChooser").addEventListener('change', function() {
     console.log("file chosen");
-    var file = id('fileChooser').files[0];
-    console.log("file: " + file + " name: " + file.name);
-    var fileReader = new FileReader();
-    fileReader.addEventListener('load', function(evt) {
-        console.log("file read: " + evt.target.result);
-        var data = evt.target.result;
-        var json = JSON.parse(data);
-        console.log("json: " + json);
-        var records = json.records;
-        console.log(records.length + " records loaded");
-        var dbTransaction = db.transaction('go', "readwrite");
-        var dbObjectStore = dbTransaction.objectStore('go');
-        var request = dbObjectStore.clear();
-        request.onsuccess = function(e) {
-            console.log(records.length + " records in database");
-        };
-        for (var i = 0; i < records.length; i++) {
-            console.log("add records" + i);
-            request = dbObjectStore.add(records[i]);
-            request.onsuccess = function(e) {
-                console.log(records.length + " records added to database");
-            };
-            request.onerror = function(e) {
-                console.log("error adding record");
-            };
-        }
-        hide('importDialog');
-        // id('importDialog').style.display = 'none';
-        id("menu").style.display = "none";
-        alert("records imported - restart")
+    var file=id('fileChooser').files[0];
+    console.log("file: "+file+" name: "+file.name);
+    var fileReader=new FileReader();
+    fileReader.addEventListener('load',function(evt) {
+        console.log("file read: "+evt.target.result);
+        var data=evt.target.result;
+        var json=JSON.parse(data);
+        console.log("json: "+json);
+        words=json.words;
+        console.log(words.length+" words loaded");
+        save();
+        hide('restoreDialog');
+        hide('dataDialog');
     });
     fileReader.readAsText(file);
 });
+*/
 
-// CANCEL RESTORE
+/* CANCEL RESTORE
 id('buttonCancelImport').addEventListener('click', function() {
     console.log("cancel restore");
     hide('importDialog');
     // id('importDialog').style.display = 'none';
 });
-
+*/
 // BACKUP
 function backup() {
     console.log("EXPORT");
-    var fileName = "tango.json";
-    var data = {
-        'records': records
+    var fileName="GoData.json";
+    var data={
+        'words': words
     };
-    var json = JSON.stringify(data);
-    console.log(records.length + " records to save");
-    var blob = new Blob([json], {
-        type: "data:application/json"
-    });
-    var a = document.createElement('a');
-    a.style.display = 'none';
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fileName;
+    var json=JSON.stringify(data);
+    console.log(words.length+" words to save");
+    var blob=new Blob([json],{type: "data:application/json"});
+    var a=document.createElement('a');
+    a.style.display='none';
+    var url=window.URL.createObjectURL(blob);
+    a.href=url;
+    a.download=fileName;
     document.body.appendChild(a);
     a.click();
-    alert(fileName + " saved to downloads folder");
-    var today=new Date();
-    lastSave=today.getMonth(); // remember month of backup
-    window.localStorage.setItem('tangoSave', lastSave);
+    alert(fileName+" saved to downloads folder");
+    today=Math.floor(new Date().getTime()/86400000);
+    window.localStorage.setItem('backupDay',today);
+    id('dataMessage').innerText='';
+    id('buttonRestore').disabled=false;
+    hide('dataDialog');
 }
 
 // UTILITIES
@@ -632,8 +639,11 @@ function hide(d) {
 // START-UP CODE
 console.log("STARTING");
 console.log('screen size: '+screen.width+'x'+screen.height);
-lastSave=window.localStorage.getItem('tangoSave');
-console.log('lastSave: '+lastSave);
+// lastSave=window.localStorage.getItem('tangoSave');
+// console.log('lastSave: '+lastSave);
+backupDay=window.localStorage.getItem('backupDay');
+if(!backupDay) backupDay=0;
+console.log('last backup on day '+backupDay);
 load();
 /*
 var defaultData = {
