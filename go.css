@@ -3,15 +3,13 @@ html, body {
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: 'monospace';
+  font-family: 'Courier',monospace;
   font-weight: 400;
   color: #444;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
-
 html {
   overflow: hidden; }
-
 body {
   display: -webkit-box;
   display: -webkit-flex;
@@ -38,7 +36,6 @@ body {
           align-content: stretch;
   font-size: 1.2em;
   background: "#444" }
-
 button {
 	height: 36px;
 	margin: 5px;
@@ -49,11 +46,10 @@ button {
 	border-radius: 50%;
 	float: right;
 }
-
 input {
 	position: absolute;
 	width: 50%;
-	height: 40px;
+	height: 30px;
 	margin: 5px;
 	color: white;
 	background-color: black;
@@ -61,11 +57,9 @@ input {
 	border-radius: 5px;
 	font-size: 1.2em;
 }
-
 .content {
     margin: 10px;
 }
-
 .flashcardButton {
   height: 40px;
   margin: 5px;
@@ -75,7 +69,6 @@ input {
   color: white;
   background: none;
 }
-
 .round-button {
 	display: block;
 	position: fixed;
@@ -86,7 +79,6 @@ input {
 	background: dimgray;
 	z-index: 100;
 }
-
 .text-button {
 	border: none;
 	margin: 15px;
@@ -97,7 +89,6 @@ input {
 	background: none;
 	float: right;
 }
-
 .dialog {
   position: fixed;
   top: 0;
@@ -110,7 +101,6 @@ input {
   display: none;
   z-index: 100;
 }
-
 .dialog-title {
   font-size: 1em;
   font-weight: bold;
@@ -126,7 +116,6 @@ input {
 	width: 90%;
 	margin: 5%;
 }
-
 #main {
     width: 100%;
     position: relative;
@@ -141,12 +130,10 @@ input {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-
 #background {
 	position: absolute;
 	top: 60px;
 }
- 
 #header {
   width: 100%;
   height: 50px;
@@ -155,15 +142,14 @@ input {
   position: fixed;
   vertical-align: middle;
   padding-left: 10px;
+  font-family: 'Courier',monospace;
   z-index: 10;
 }
-
 #headerTitle {
   font-weight: bold;
   font-size: 1.5em;
   margin: 0;
 }
-
 #wordcount {
     position: relative;
     left: 80px;
@@ -171,56 +157,45 @@ input {
     color: white;
     font-size: 1em;
 }
-
 #background {
 	height: 100%;
 }
-
 #flashcardDialog, #findDialog {
 	height: 50px;
 	z-index: 100;
 }
-  
 #buttonFind {
 	bottom: 20px;
 	left: 20px;
 }
-
 #find {
 	margin: 5px;
 	float: right;
 }
-
 #buttonAdd {
 	right: 20px;
 	bottom: 20px;
 }
-
 #wordDialog {
 	height: 30%;
 }
-
 #wordPanel {
   position: absolute;
   top: 50px;
   height: 30%;
   background: black;
 }
-
 #kanji {
-  font-size: 2em;
+  font-size: 1.5em;
 }
-
 #kanjiField {
   width: 100%;
   height: 50px;
   font-size: 2em;
 }
-
 #buttonDelete {
 	float: left;
 }
-
 #fileChooser {
 	margin: 20px;
 }

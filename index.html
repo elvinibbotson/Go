@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +8,11 @@
   	<link rel="stylesheet" type="text/css" href="go.css">
   	<meta name="application-name" content="Go">
 </head>
-
 <body>
-
 <header id="header">
 	<span id="headerTitle">Go 語 </span>
 	<span id='wordCount'><span id='count'></span> words</span>
 </header>
-
 <main id="main">
     <div id='background' class="content">
     	flashcards
@@ -38,13 +34,10 @@
 	<!--div id='wordcount'><span id='count'></span> words</div-->
 	<div id='buttonAdd' class='round-button'><img src='add.svg'/></div>
 </main>
-
 <div id='flashcardDialog' class='dialog'></div>
-
 <div id='findDialog' class='dialog'>
 	find <input type='text' id='findField'/> <img id='find' src='find.svg'/>
 </div>
-
 <div id='wordPanel' class="dialog">
 	<div class="dialog-body" id='kanji'></div>
 	<div class="dialog-body"><span id='kana'></span> <span id='romaji'></span></div>
@@ -58,7 +51,6 @@
 		<button id='buttonBack'><img src='back.svg'></button>
     </div>
 </div>
-
 <div id="wordDialog" class="dialog">
 	<div class="dialog-title"><span id='label'>kanji</span> <input type="text" id="wordField"/></div>
 	<p id='word'></p>
@@ -67,21 +59,14 @@
       	<button id="buttonNextSave"><img id='nextSave' src='next.svg'></button>  
 	</div>
 </div>
-
 <div id='dataDialog' class='dialog'>
 	<div id='dataMessage'></div>
 	<button id='buttonBackup' class='text-button'>BACKUP</button>
 	<button id='buttonRestore' class='text-button'>RESTORE</button>
 </div>
-
 <div id="restoreDialog" class="dialog">
 	<input type="file" id="fileChooser" accept=".json" style="display: none">
 </div>
-
-
-
 <script src="go.js" async></script>
-
 </body>
-
 </html>

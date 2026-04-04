@@ -2,12 +2,8 @@ function id(el) {
     // console.log("return element whose id is "+el);
     return document.getElementById(el);
 }
-
 'use strict';
-
 // GLOBAL VARIABLES
-// var db;
-// var records = [];
 var words=[];
 var word={};
 var wordIndex=null;
@@ -17,21 +13,13 @@ var cardIndex=0;
 var cardStep=0;
 var mode='none';
 var lang='English';
-// var recordIndex = -1;
-// var lastSave = null;
-// var resort = false;
-// var qFocus = null;
 var finds=[]; // NEW: list of words matching find term
 var findIndex=null;
 var backupDay=null;
-// var find=-1; // index for matching finds (-1 if none)
-
 // EVENT LISTENERS
-
 id('header').addEventListener('click',function() {
 	show('dataDialog');
 })
-
 id('background').addEventListener('click',function() {
 	console.log('close dialogs');
 	hide('dataDialog');
@@ -50,27 +38,19 @@ id('background').addEventListener('click',function() {
 	id('buttonFind').style.display='block';
 	*/
 })
-
 // JAPANESE flashcards
 id('nihongoButton').addEventListener('click', function(e) {
 	e.stopPropagation();
-    // id('buttonNextDone').innerHTML = 'NEXT';
     lang = 'Japanese';
     mode='flashcards';
-    // id('display').style.display = 'block';
-    
     id('flashcardDialog').innerHTML='日本語 flashcards';
     show('flashcardDialog');
     hide('help');
     hide('buttonBack');
     show('buttonNext');
     show('wordPanel');
-    
-    // id('help').innerHTML = '';
-    // cardIndex=Math.floor(Math.random()*records.length);
     flashcard(true);
 })
-
 // ENGLISH flashcards
 id('angloButton').addEventListener('click', function(e) {
 	e.stopPropagation();
@@ -87,32 +67,10 @@ id('angloButton').addEventListener('click', function(e) {
     // cardIndex=Math.floor(Math.random()*records.length);
     flashcard(true);
 })
-/*
-id('buttonNextCard').addEventListener('click',function() {
-	if ((lang=='Japanese')&&(step<3)) { // reveal words one at a time
-            step++;
-            if (step==2) {
-                id('kana').innerHTML = record.kana
-                id('title').innerHTML = 'kana';
-            // } else if (step == 3) {
-                id('romaji').innerHTML = record.romaji
-                id('title').innerHTML = 'Romaji';
-            } else {
-                id('anglo').innerHTML = record.anglo;
-                id('title').innerHTML = 'English';
-            }
-        } else if ((lang == 'English') && (step == 4)) { // reveal all Japanese at once
-            id('kanji').innerHTML = record.kanji;
-            id('kana').innerHTML = record.kana;
-            id('romaji').innerHTML = record.romaji;
-            step = 0;
-        } else flashcard(false);
-})
-*/
-// FIND
 id('buttonFind').addEventListener('click',function() {
 	console.log('FIND');
 	mode='find';
+	hide('wordPanel');
 	show('findDialog');
 	hide('buttonFind');
 	hide('help');
@@ -121,7 +79,6 @@ id('buttonFind').addEventListener('click',function() {
 	// id('buttonFind').style.display='none';
 	// id('help').innerHTML = '';
 })
-
 id('find').addEventListener('click',function() {
     word=id('findField').value.toLowerCase();
     console.log("find "+word);
@@ -130,38 +87,20 @@ id('find').addEventListener('click',function() {
     var found=false;
     record={};
     finds=[];
-    
-    		console.log('search '+words.length+' words for '+word);
-    		while(i<words.length) {
-    			found=false;
-    			for(j=0;j<words[i].romaji.length;j++) {
+    console.log('search '+words.length+' words for '+word);
+    while(i<words.length) {
+    	found=false;
+    	for(j=0;j<words[i].romaji.length;j++) {
     				if(words[i].romaji[j].indexOf(word)>=0) found=true;
     			}
-    			for(j=0;j<words[i].anglo.length;j++) {
+    	for(j=0;j<words[i].anglo.length;j++) {
     				if(words[i].anglo[j].indexOf(word)>=0) found=true;
     			}
-    			if(found) finds.push(i);
-    			i++;
-    		}
-    		console.log(finds.length+' matching words');
-    /*
-    console.log('search '+records.length+' records for '+word);
-    i=0;
-    while(i<records.length) { // check every record
-        found = false;
-        for (j = 0; j < records[i].romaji.length; j++) {
-            if (records[i].romaji[j].indexOf(word) >= 0) found = true;
-        }
-        for (j = 0; j < records[i].anglo.length; j++) {
-            if (records[i].anglo[j].indexOf(word) >= 0) found = true;
-        }
-        if (found) finds.push(i);
-        i++;
+    	if(found) finds.push(i);
+    	i++;
     }
-    console.log(finds.length+' matching records');
-    */
+    console.log(finds.length+' matching words');
     if (finds.length > 0) { // if any matches...
-        // id('title').innerHTML = word;
         findIndex=0;
         showMatch(); // show first match
         show('wordPanel'); // id('display').style.display = 'block';
@@ -174,9 +113,7 @@ id('find').addEventListener('click',function() {
         	hide('buttonNext');
         }
     } else hide('wordPanel'); // id('display').style.display = 'none';
-    // id('help').innerHTML = '';
 });
-
 id('buttonBack').addEventListener('click',function(e) {
 	e.stopPropagation();
 	console.log('BACK');
@@ -186,7 +123,6 @@ id('buttonBack').addEventListener('click',function(e) {
 		showMatch();
 	}
 })
-
 id('buttonNext').addEventListener('click',function(e) {
 	e.stopPropagation();
 	console.log('NEXT');
@@ -216,7 +152,6 @@ id('buttonNext').addEventListener('click',function(e) {
         } else flashcard(false);
 	}
 })
-
 id('wordPanel').addEventListener('click',function() {
 	console.log('EDIT');
 	hide('wordPanel');
@@ -231,32 +166,20 @@ id('wordPanel').addEventListener('click',function() {
     show('buttonDelete');
     show('wordDialog');
 })
-
 id('buttonAdd').addEventListener('click',function() {
     hide('wordPanel');
-    // id('display').style.display = 'none';
     mode='add';
     step=1;
     id('word').innerHTML='';
     id('wordField').value='';
     wordIndex=-1;
     id('label').innerHTML="kanji";
-    /*
-    id("buttonDelete").disabled = true;
-    id('buttonDelete').style.color = 'gray';
-    id('buttonNextSave').innerHTML = 'NEXT';
-    // id('buttonClose').disabled = false;
-    */
     hide('buttonDelete');
     show('wordDialog');
-    // id('recordDialog').style.display = 'block';
     hide('help');
     hide('buttonAdd');
-    // id('help').innerHTML = '';
 });
-
 // id('wordField').addEventListener('change',nextStep);
-
 id('buttonDelete').addEventListener('click',function() {
     alert("DELETE WORD");
     words.splice(wordIndex,1);
@@ -265,9 +188,7 @@ id('buttonDelete').addEventListener('click',function() {
     hide('wordDialog');
     mode='none';
 })
-
 id('buttonNextSave').addEventListener('click',nextStep);
-
 id('buttonRestore').addEventListener('click',function() {
 	var event = new MouseEvent('click',{
 		bubbles: true,
@@ -295,9 +216,7 @@ id('buttonRestore').addEventListener('click',function() {
 	id('buttonBackup').disabled=false;
 	hide('dataDialog');
 });
-
 id('buttonBackup').addEventListener('click',backup);
-
 function nextStep() {
 	// ******* COULD ALL GO IN BUTTONNEXTSAVE LISTENER?  *********
 	console.log("input: " + id('wordField').value);
@@ -406,33 +325,6 @@ function nextStep() {
     show('buttonAdd');
     // id('display').style.display = 'block';
 }
-/*
-id('buttonNextDone').addEventListener('click', function() {
-    if(step>3) (id('buttonNextDone').innerHTML == 'DONE') id('display').style.display = 'none';
-    else if (finds.length > 0) { // show next match
-        showMatch();
-    } else { // show next flashcard
-        if ((lang == 'Japanese') && (step < 4)) { // reveal words one at a time
-            step++;
-            if (step == 2) {
-                id('kana').innerHTML = record.kana
-                id('title').innerHTML = 'kana';
-            } else if (step == 3) {
-                id('romaji').innerHTML = record.romaji
-                id('title').innerHTML = 'Romaji';
-            } else {
-                id('anglo').innerHTML = record.anglo;
-                id('title').innerHTML = 'English';
-            }
-        } else if ((lang == 'English') && (step == 4)) { // reveal all Japanese at once
-            id('kanji').innerHTML = record.kanji;
-            id('kana').innerHTML = record.kana;
-            id('romaji').innerHTML = record.romaji;
-            step = 0;
-        } else flashcard(false);
-    }
-})
-*/
 function showMatch() {
 			wordIndex=finds[findIndex];
 	
@@ -458,34 +350,6 @@ function showMatch() {
     } else id('buttonNextDone').innerHTML = 'NEXT';
     */
 }
-
-/*
-id('buttonClose').addEventListener('click', function() {
-    id('display').style.display = 'none';
-})
-*/
-
-/* EDIT word/phrase
-id('buttonEdit').addEventListener('click', function() {
-    id('display').style.display = 'none';
-    mode = 'edit';
-    id('dialogTitle').innerHTML = "edit word/phrase";
-    id('label').innerHTML = 'kanji';
-    id('wordField').value = record.kanji;
-    step = 1;
-    id('buttonNextSave').innerHTML = 'NEXT';
-    id("buttonDelete").disabled = false;
-    id('buttonDelete').style.color = 'yellow';
-    id('recordDialog').style.display = 'block';
-})
-*/
-
-/* NEXT/DONE
-
-*/
-
-
-
 // RANDOM FLASHCARD
 function flashcard(first) {
 	console.log('FLASHCARD - first? '+first);
@@ -495,7 +359,7 @@ function flashcard(first) {
         console.log("flashcard "+cardIndex +" step by "+cardStep);
     }
     console.log("flashcard "+cardIndex);
-    wordIndex=cardIndex; // NEEDED???
+    wordIndex=cardIndex;
     word=words[wordIndex];
     console.log(word.kanji+','+word.kana+','+word.anglo);
     if(lang=='Japanese') {
@@ -504,43 +368,18 @@ function flashcard(first) {
             id('kana').innerHTML='-';
             step=1;
         } else { // no kanji
-            id('kana').innerHTML = word.kana;
-            step = 2;
+            id('kana').innerHTML=word.kana;
+            step=2;
         }
-        id('romaji').innerHTML = id('anglo').innerHTML = '-';
+        id('romaji').innerHTML=id('anglo').innerHTML = '-';
     } else {
-        id('anglo').innerHTML = word.anglo;
-        id('kanji').innerHTML = id('kana').innerHTML = id('romaji').innerHTML = '-';
-        step = 4;
+        id('anglo').innerHTML=word.anglo;
+        id('kanji').innerHTML=id('kana').innerHTML=id('romaji').innerHTML='-';
+        step=4;
     }
-    
-    //id('wordPanel').style.display='block';
     console.log('wordPanel is '+id('wordPanel').style.display);
-    // show('help');
     cardIndex=(cardIndex+cardStep)%words.length; // ready for next flashcard
 }
-
-// ADD word/phrase BUTTON
-
-
-// DELETE RECORD ******** REINSTATE THIS *************
-/* id('buttonDelete').addEventListener('click', function() {
-    alert("delete record " + record.id);
-    var dbTransaction = db.transaction("go", "readwrite");
-    console.log("transaction ready");
-    var dbObjectStore = dbTransaction.objectStore("go");
-    var request = dbObjectStore.delete(record.id);
-    request.onsuccess = function(event) {
-        records.splice(recordIndex, 1) // remove record form records array
-        console.log("record " + recordIndex + " (id " + record.id + ") deleted. " + records.length + " records");
-        hide('recordDialog');
-        // id('recordDialog').style.display = 'none';
-    };
-    request.onerror = function(event) {
-        console.log("error deleting record " + record.id);
-    };
-}); */
-
 // LOAD VOCABULARY
 function load() {
 	var data=localStorage.getItem('WordData');
@@ -570,35 +409,6 @@ function save() {
 	window.localStorage.setItem('WordData',data);
 	console.log('data saved to WordData');
 }
-
-/* RESTORE BACKUP
-id("fileChooser").addEventListener('change', function() {
-    console.log("file chosen");
-    var file=id('fileChooser').files[0];
-    console.log("file: "+file+" name: "+file.name);
-    var fileReader=new FileReader();
-    fileReader.addEventListener('load',function(evt) {
-        console.log("file read: "+evt.target.result);
-        var data=evt.target.result;
-        var json=JSON.parse(data);
-        console.log("json: "+json);
-        words=json.words;
-        console.log(words.length+" words loaded");
-        save();
-        hide('restoreDialog');
-        hide('dataDialog');
-    });
-    fileReader.readAsText(file);
-});
-*/
-
-/* CANCEL RESTORE
-id('buttonCancelImport').addEventListener('click', function() {
-    console.log("cancel restore");
-    hide('importDialog');
-    // id('importDialog').style.display = 'none';
-});
-*/
 // BACKUP
 function backup() {
     console.log("EXPORT");
@@ -623,7 +433,6 @@ function backup() {
     id('buttonRestore').disabled=false;
     hide('dataDialog');
 }
-
 // UTILITIES
 function show(d) {
 	console.log('show '+d);
@@ -635,94 +444,13 @@ function hide(d) {
 	// if(d=='wordPanel') return;
 	id(d).style.display='none';
 }
-
 // START-UP CODE
 console.log("STARTING");
 console.log('screen size: '+screen.width+'x'+screen.height);
-// lastSave=window.localStorage.getItem('tangoSave');
-// console.log('lastSave: '+lastSave);
 backupDay=window.localStorage.getItem('backupDay');
 if(!backupDay) backupDay=0;
 console.log('last backup on day '+backupDay);
 load();
-/*
-var defaultData = {
-    records: [{
-        kanji: "字",
-        level: 1,
-        kana: "じ ",
-        romaji: "ji",
-        anglo: "character"
-    }]
-}
-var request = window.indexedDB.open("nihongoDB");
-request.onsuccess = function(event) {
-    console.log("request: " + request);
-    db = event.target.result;
-    console.log("DB open");
-    var dbTransaction = db.transaction('go', "readwrite");
-    console.log("transaction ready");
-    var dbObjectStore = dbTransaction.objectStore('go');
-    console.log("objectStore ready");
-    records = [];
-    console.log("records array ready");
-    
-    			words=[];
-    			// word={};
-    
-    var request = dbObjectStore.openCursor();
-    // var words="";
-    request.onsuccess = function(event) {
-        var cursor = event.target.result;
-        if (cursor) {
-            records.push(cursor.value);
-            console.log("record " + cursor.key + ", id: " + cursor.value.id + ": " + cursor.value.kanji + "; " + cursor.value.kana + "; " + cursor.value.romaji + "; " + cursor.value.anglo);
-            // words+=cursor.value.romaji;
-            // words+="; ";
-            
-            			word={};
-            			word.kanji=cursor.value.kanji;
-            			word.kana=cursor.value.kana;
-            			word.romaji=cursor.value.romaji;
-            			word.anglo=cursor.value.anglo;
-            			console.log('word: '+word.kanji+'/'+word.kana+'/'+word.romaji+'/'+word.anglo);
-            			words.push(word);
-            
-            cursor.continue();
-        } else {
-            console.log("No more entries!");
-            
-            			console.log('save '+words.length+' words - first is '+words[0].romaji+'/'+words[0].anglo);
-            			save();
-            
-            console.log("words: " + records.length);
-            id('count').innerHTML = records.length;
-            if (records.length < 1) {
-                console.log("no records - restore backup?");
-                // id('importDialog').style.display = 'block';
-                show('importDialog'); // offer to recover backup
-            }
-            // var today=new Date();
-            // alert('this month: '+today.getMonth()+'; lastSave: '+lastSave);
-            // if (today.getMonth()!=lastSave) backup(); // monthly backups
-            var thisMonth=new Date().getMonth();
-	        if(thisMonth!=lastSave) backup(); // monthly backups
-        }
-    };
-};
-request.onupgradeneeded = function(event) {
-    var dbObjectStore = event.currentTarget.result.createObjectStore("go", {
-        keyPath: "id",
-        autoIncrement: true
-    });
-    console.log("new Go ObjectStore created");
-};
-request.onerror = function(event) {
-    alert("indexedDB error code " + event.target.errorCode);
-    records = defaultData.records;
-    alert("use default data");
-};
-*/
 // implement service worker if browser is PWA friendly
 if (navigator.serviceWorker.controller) {
     console.log('Active service worker found, no need to register')
