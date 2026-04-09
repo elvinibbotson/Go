@@ -100,7 +100,7 @@ id('find').addEventListener('click',function() {
     	i++;
     }
     console.log(finds.length+' matching words');
-    if (finds.length > 0) { // if any matches...
+    if (finds.length>0) { // if any matches...
         findIndex=0;
         showMatch(); // show first match
         show('wordPanel'); // id('display').style.display = 'block';
@@ -112,7 +112,8 @@ id('find').addEventListener('click',function() {
         	hide('buttonBack');
         	hide('buttonNext');
         }
-    } else hide('wordPanel'); // id('display').style.display = 'none';
+    }
+    else hide('wordPanel'); // id('display').style.display = 'none';
 });
 id('buttonBack').addEventListener('click',function(e) {
 	e.stopPropagation();
@@ -169,6 +170,7 @@ id('wordPanel').addEventListener('click',function() {
 id('buttonAdd').addEventListener('click',function() {
     hide('wordPanel');
     mode='add';
+    word={};
     step=1;
     id('word').innerHTML='';
     id('wordField').value='';
@@ -326,29 +328,12 @@ function nextStep() {
     // id('display').style.display = 'block';
 }
 function showMatch() {
-			wordIndex=finds[findIndex];
-	
-	// recordIndex=finds[findIndex];
-
-    		word=words[wordIndex];
-    		id('kanji').innerHTML=word.kanji;
-    		id('kana').innerHTML=word.kana;
-    		id('romaji').innerHTML=word.romaji;
-    		id('anglo').innerHTML=word.anglo;
-    
-    // record=records[recordIndex];
-    /*
-    id('kanji').innerHTML=record.kanji;
-    id('kana').innerHTML=record.kana;
-    id('romaji').innerHTML=record.romaji;
-    id('anglo').innerHTML=record.anglo;
-    */
-    /*
-    if (finds.length < 1) { // last match
-        id('buttonNextDone').innerHTML = 'DONE';
-        console.log('last match');
-    } else id('buttonNextDone').innerHTML = 'NEXT';
-    */
+	wordIndex=finds[findIndex];
+    word=words[wordIndex];
+    id('kanji').innerHTML=word.kanji;
+    id('kana').innerHTML=word.kana;
+    id('romaji').innerHTML=word.romaji;
+    id('anglo').innerHTML=word.anglo;
 }
 // RANDOM FLASHCARD
 function flashcard(first) {
