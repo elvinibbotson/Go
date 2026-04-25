@@ -81,9 +81,11 @@ id('buttonFind').addEventListener('click',function() {
 })
 id('find').addEventListener('click',function() {
     word=id('findField').value.toLowerCase();
+    var i=word.indexOf(' ');
+    if(i>0) word=word.substring(0,i);
     console.log("find "+word);
-    var i=0,
-        j=0;
+    i=0;
+    var j=0;
     var found=false;
     record={};
     finds=[];
